@@ -35,7 +35,7 @@ async function handleLogout() {
         <p class="text-sm font-semibold leading-tight">{{ profile.name }}</p>
         <p class="text-xs text-slate-500">@{{ profile.email.split('@')[0] }}</p>
       </div>
-      <span v-else class="text-sm text-slate-400">Memuat profil...</span>
+      <span v-else class="text-sm text-slate-500">Memuat profil...</span>
       <span class="hidden items-center gap-1.5 rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700 md:flex">
         <span class="h-2 w-2 rounded-full bg-brand-500" /> Sesi aktif
       </span>
