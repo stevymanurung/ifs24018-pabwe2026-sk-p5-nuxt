@@ -23,14 +23,14 @@ async function handleSubmit() {
   <form class="space-y-4" @submit.prevent="handleSubmit">
     <h2 class="text-xl font-bold">Masuk ke akun</h2>
     <div>
-      <label for="email" class="mb-1 block text-sm font-medium">Email</label>
-      <input id="email" v-model="form.email" type="email" required class="input" placeholder="nama@delcom.org" />
+      <label for="login-email-input" class="mb-1 block text-sm font-medium">Email</label>
+      <input id="login-email-input" v-model="form.email" type="email" required class="input" placeholder="nama@delcom.org" />
     </div>
     <div>
-      <label for="password" class="mb-1 block text-sm font-medium">Kata sandi</label>
-      <input id="password" v-model="form.password" type="password" required class="input" placeholder="••••••" />
+      <label for="login-password-input" class="mb-1 block text-sm font-medium">Kata sandi</label>
+      <input id="login-password-input" v-model="form.password" type="password" required class="input" placeholder="••••••" />
     </div>
-    <button type="submit" class="btn-primary w-full" :disabled="authStore.isLoading">
+    <button id="login-submit-button" type="submit" class="btn-primary w-full" :disabled="authStore.isLoading">
       {{ authStore.isLoading ? 'Memproses...' : 'Masuk' }}
     </button>
     <p class="text-center text-sm text-slate-500">

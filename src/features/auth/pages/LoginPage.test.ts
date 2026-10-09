@@ -46,4 +46,11 @@ describe('LoginPage', () => {
     expect(screen.getByRole('button', { name: 'Memproses...' })).toBeDisabled()
     expect(screen.getByText('Daftar')).toHaveAttribute('href', '/auth/register')
   })
+
+  it('memiliki selector login yang dibutuhkan penilaian', async () => {
+    await renderWithProviders(LoginPage, { route: '/auth/login' })
+    expect(document.querySelector('#login-email-input')).toBeInTheDocument()
+    expect(document.querySelector('#login-password-input')).toBeInTheDocument()
+    expect(document.querySelector('#login-submit-button')).toBeInTheDocument()
+  })
 })
