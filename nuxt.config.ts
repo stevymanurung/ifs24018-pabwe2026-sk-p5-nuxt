@@ -1,8 +1,8 @@
 import tailwindcss from '@tailwindcss/vite'
+import { existsSync, readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 const DEFAULT_BASEURL = 'https://open-api.delcom.org/api/v1'
-const FONT_URL =
-  'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -28,9 +28,35 @@ export default defineNuxtConfig({
       chunkSizeWarningLimit: 1500,
     },
   },
+  routeRules: {
+    // Hindari Cache-Control: no-store agar halaman memenuhi syarat back/forward cache (bfcache).
+    '/**': { headers: { 'cache-control': 'public, max-age=0, must-revalidate' } },
+    '/_nuxt/**': { headers: { 'cache-control': 'public, max-age=31536000, immutable' } },
+  },
   nitro: {
     devPort: Number(process.env.APP_PORT) || 3000,
     externals: { inline: ['@vue/shared'] },
+    // Prerender halaman SPA agar index.html statis (CDN) dan CSS bisa di-inline.
+    prerender: { routes: ['/', '/auth/login'], failOnError: false },
+    hooks: {
+      // Inline entry CSS ke <style> agar tidak menjadi render-blocking request.
+      'prerender:generate'(route, nitro) {
+        if (!route.fileName?.endsWith('.html') || typeof route.contents !== 'string') return
+        // Saat prerender, .output/public belum terisi; baca dari direktori aset client build.
+        const dirs = nitro.options.publicAssets.map((asset) => asset.dir)
+        route.contents = route.contents.replace(
+          /<link rel="stylesheet" href="(\/_nuxt\/entry\.[^"]+\.css)"[^>]*>/g,
+          (tag: string, href: string) => {
+            const name = href.split('/').pop() as string
+            const file = dirs.map((dir) => join(dir, name)).find((candidate) => existsSync(candidate))
+            if (!file) return tag
+            // url() relatif (font) harus menjadi absolut karena CSS kini berada di dalam HTML.
+            const css = readFileSync(file, 'utf8').replaceAll('url(./', 'url(/_nuxt/')
+            return `<style>${css}</style>`
+          },
+        )
+      },
+    },
   },
   app: {
     head: {
@@ -45,12 +71,7 @@ export default defineNuxtConfig({
       ],
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' },
-        { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
-        // Dimuat non-blocking agar tidak menghambat render pertama.
-        { rel: 'preload', as: 'style', href: FONT_URL, onload: "this.onload=null;this.rel='stylesheet'" },
       ],
-      noscript: [{ innerHTML: `<link rel="stylesheet" href="${FONT_URL}">` }],
     },
   },
 })

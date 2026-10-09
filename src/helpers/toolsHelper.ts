@@ -1,17 +1,21 @@
-import Swal from 'sweetalert2'
-
 export const TYPE_LABELS = { inflow: 'Pemasukan', outflow: 'Pengeluaran' } as const
 export const SOURCE_LABELS = { cash: 'Tunai', savings: 'Tabungan', loans: 'Pinjaman' } as const
 
-export function showSuccessDialog(message: string): Promise<unknown> {
+// SweetAlert2 dimuat saat dialog pertama dibutuhkan agar tidak membebani JavaScript halaman awal.
+const loadSwal = async () => (await import('sweetalert2')).default
+
+export async function showSuccessDialog(message: string): Promise<unknown> {
+  const Swal = await loadSwal()
   return Swal.fire({ icon: 'success', title: 'Berhasil', text: message, confirmButtonColor: '#059669' })
 }
 
-export function showErrorDialog(message: string): Promise<unknown> {
+export async function showErrorDialog(message: string): Promise<unknown> {
+  const Swal = await loadSwal()
   return Swal.fire({ icon: 'error', title: 'Gagal', text: message, confirmButtonColor: '#059669' })
 }
 
 export async function showConfirmDialog(title: string, text: string): Promise<boolean> {
+  const Swal = await loadSwal()
   const result = await Swal.fire({
     icon: 'warning',
     title,

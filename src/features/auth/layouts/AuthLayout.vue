@@ -19,7 +19,7 @@ onMounted(() => {
           <Wallet class="h-7 w-7" />
         </div>
         <h1 class="text-2xl font-extrabold text-brand-900">Delcom Cash Flow</h1>
-        <p class="text-sm text-slate-500">Catat dan pantau arus kas pribadimu dengan mudah.</p>
+        <p class="text-sm text-slate-600">Catat dan pantau arus kas pribadimu dengan mudah.</p>
       </div>
       <div class="card p-6 sm:p-8">
         <RouterView />
