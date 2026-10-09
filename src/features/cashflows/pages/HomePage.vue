@@ -13,8 +13,8 @@ import {
   toApiDate,
 } from '../../../helpers/toolsHelper'
 import { useInput } from '../../../hooks/useInput'
-import AddModal from '../components/modals/AddModal.vue'
-import ChangeModal from '../components/modals/ChangeModal.vue'
+import AddModal from '../modals/AddModal.vue'
+import ChangeModal from '../modals/ChangeModal.vue'
 import { useCashFlowsStore } from '../states/cashFlowsStore'
 import type { CashFlow, CashFlowQueryParams } from '../states/cashFlowsStore'
 

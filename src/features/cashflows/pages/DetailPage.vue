@@ -11,7 +11,7 @@ import {
   showErrorDialog,
   showSuccessDialog,
 } from '../../../helpers/toolsHelper'
-import ChangeModal from '../components/modals/ChangeModal.vue'
+import ChangeModal from '../modals/ChangeModal.vue'
 import { useCashFlowsStore } from '../states/cashFlowsStore'
 
 const route = useRoute()

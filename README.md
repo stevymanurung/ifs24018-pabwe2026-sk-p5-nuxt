@@ -14,7 +14,13 @@ bun run test:coverage     # unit + integration test, threshold coverage 100%
 
 ## Struktur utama
 - `src/helpers` — `apiHelper.ts`, `toolsHelper.ts` · `src/hooks/useInput.ts` · `src/env.d.ts`
-- `src/features/auth|users|cashflows|common` — `api/`, `states/` (Pinia), `layouts/`, `components/`, `pages/`
+- `src/features/auth|users|cashflows|common` — `api/`, `states/` (Pinia), `layouts/`, `components/`, `modals/` (cashflows), `pages/`
 - `src/routes.ts` + `src/router.options.ts` — deklarasi rute · `src/test-utils.ts`, `src/setupTests.ts` — utilitas pengujian
 
 Catatan: endpoint ubah password memakai `PUT /users/password` sesuai dokumentasi resmi Delcom Open API.
+
+## Troubleshooting
+- **`Either manifest or precomputed data must be provided` (HTTP 500)** — versi Nuxt dikunci ke `4.5.2` (tanpa `^`) karena Nuxt 4.6.0 menimbulkan error ini di lingkungan Windows. Setelah mengganti `package.json`, hapus `node_modules`, `.nuxt`, dan `bun.lock` lama, lalu jalankan `bun install`.
+- Hindari menaruh proyek di folder yang disinkronkan OneDrive (mis. `Desktop` yang di-sync); sinkronisasi dapat merusak folder `.nuxt`.
+- `bun run start` memakai `start.mjs` (membaca `APP_PORT` dari `.env`) dan butuh `bun run build` terlebih dahulu.
+- Peringatan `NUXT_B5004` tentang `vite.config.ts` aman diabaikan: file itu hanya dipakai Vitest.
