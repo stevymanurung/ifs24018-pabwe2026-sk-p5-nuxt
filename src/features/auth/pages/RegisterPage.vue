@@ -39,7 +39,7 @@ async function handleSubmit() {
     </button>
     <p class="text-center text-sm text-slate-500">
       Sudah punya akun?
-      <RouterLink to="/auth/login" class="font-semibold text-brand-700 hover:underline">Masuk</RouterLink>
+      <RouterLink to="/auth/login" class="font-semibold text-brand-600 hover:underline">Masuk</RouterLink>
     </p>
   </form>
 </template>
